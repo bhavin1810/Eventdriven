@@ -1,5 +1,6 @@
 package com.microservices.sender.engine;
 
+import com.microservices.sender.models.Car;
 import com.microservices.sender.models.CityPrices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @Slf4j
@@ -14,6 +17,11 @@ public class Consumer {
 
     @Autowired
     CityPrices cityPrices;
+
+    @Autowired
+    Car car;
+
+    private final static DecimalFormat df = new DecimalFormat("0.00");
 
     @KafkaListener(topics = "benz", groupId = "group_id")
     public void consume(String message) throws IOException {
@@ -23,17 +31,40 @@ public class Consumer {
         String lidValue = dissectByEquals[1];
         dissectByEquals = dissectByComma[1].split("=");
         String city = dissectByEquals[1];
+        city = city.replaceFirst(" ","");
         boolean lid = Boolean.parseBoolean(lidValue);
         double price = 0.0;
-        log.info("fetching fuel price for city -> "+city);
+        double fuelSpent = getLitresConsumed();
+        log.info("fuel consumed in travelling to "+city+" = "+fuelSpent+" litres");
+        Car.tank = Double.parseDouble(df.format(Car.tank - fuelSpent));
+        log.info("remaining fuel left = "+Car.tank+ " litres");
         if(lid) {
             price = cityPrices.getCityFuelPrice(city);
             log.info("fuel in "+city+" = "+price+"Rs/L");
+            double filled = getLitresFilled();
+            double timeTaken = Double.parseDouble(df.format(filled * 30));
+            log.info("filling "+filled+" litres in "+timeTaken+" seconds");
+            log.info("total fuel in tank = "+Double.parseDouble(df.format((Car.tank+filled)))+"litres ; total cost = "+Double.parseDouble(df.format((price * filled)))+" Rs");
         }
         else
-            log.info("lid closed. Not fetching fuel price");
-
-
-
+            log.info("lid closed. Not fetching fuel price nor filling fuel for "+city);
     }
+
+    private double getLitresConsumed()
+    {
+        double randomConsumption = ThreadLocalRandom.current().nextDouble(0, Car.tank);
+        return Double.parseDouble(df.format(randomConsumption));
+    }
+
+    private double getLitresFilled()
+    {
+        double randomFilling = ThreadLocalRandom.current().nextDouble(1, Car.capacity);
+        if((randomFilling+Car.tank) > Car.capacity)
+            getLitresFilled();
+        return Double.parseDouble(df.format(randomFilling));
+    }
+
+
+
+
 }

@@ -10,13 +10,14 @@ import org.springframework.stereotype.Component;
 public class Car {
     @Getter @Setter private boolean lid = false;
     @Getter @Setter private String city;
-    @Getter @Setter private static int capacity = 30;
+    @Getter public final static double capacity = 30.0;
+    @Getter @Setter public static double tank = capacity;
 
     @Override
     public String toString()
     {
-        return "lid="+lid+
-                ",city="+city+
-                ",capacity="+capacity;
+        return "lid ="+lid+
+                ",city = "+city+
+                ",tank = "+tank;
     }
 }
