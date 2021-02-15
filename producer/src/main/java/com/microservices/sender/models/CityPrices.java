@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -47,5 +44,15 @@ public class CityPrices {
         listOfCities.put("delhi",88.14);
         listOfCities.put("mumbai",94.64);
         listOfCities.put("goa",85.01);
+    }
+
+    public String toString()
+    {
+        String cityPriceList ="";
+        for(Map.Entry<String,Double> entry : listOfCities.entrySet())
+        {
+            cityPriceList = cityPriceList + entry.getKey() + "=" + entry.getValue()+ ",";
+        }
+        return cityPriceList;
     }
 }

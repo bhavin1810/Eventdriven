@@ -1,11 +1,12 @@
-package com.microservices.sender.engine;
+package com.microservices.consumer.engine;
 
-import com.microservices.sender.models.Car;
-import com.microservices.sender.models.CityPrices;
+import com.microservices.consumer.models.Car;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -14,10 +15,6 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 @Slf4j
 public class Consumer {
-
-    @Autowired
-    CityPrices cityPrices;
-
     @Autowired
     Car car;
 
@@ -39,7 +36,7 @@ public class Consumer {
         Car.tank = Double.parseDouble(df.format(Car.tank - fuelSpent));
         log.info("remaining fuel left = "+Car.tank+ " litres");
         if(lid) {
-            price = cityPrices.getCityFuelPrice(city);
+            price = getCityPrice(city);
             log.info("fuel in "+city+" = "+price+"Rs/L");
             double filled = getLitresFilled();
             double timeTaken = Double.parseDouble(df.format(filled * 30));
@@ -64,7 +61,11 @@ public class Consumer {
         return Double.parseDouble(df.format(randomFilling));
     }
 
-
-
-
+    private double getCityPrice(String city)
+    {
+        String requestUrl = "http://localhost:9000/producer/city/"+city;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(requestUrl,String.class);
+        return Double.parseDouble(response.getBody());
+    }
 }
