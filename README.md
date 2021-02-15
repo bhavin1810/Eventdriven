@@ -7,24 +7,32 @@ user doesn't send it. Once the consumer receives the city and lid open/close dat
 it fetches the fuel price for that city and calculates fuel consumed, how much fuel
 filled and in how many seconds in the car's tank.
 
-#Setup :trollface:
+# Setup :trollface:
+
 Producer:
+
 Add the following environment variables for producer:
+
 ```
 spring.config.location = /path_to_producer/producer/src/main/resources/application.yml
 ```
+
 Consumer:
+
 Add the following environment variables for consumer:
+
 ```
 spring.config.location = /path_to_consumer/consumer/src/main/resources/application.yml
 ```
 
-#Build :goberserk:
+# Build :goberserk:
+
 For both producer and consumer build the following way:
 ```
 mvn clean install
 ```
 
-#SWAGGER :link:
+# SWAGGER :link:
+
 http://localhost:9000/swagger-ui.html
 
