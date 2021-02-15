@@ -1,14 +1,13 @@
-package com.microservices.sender.engine;
+package com.microservices.producer.engine;
 
-import com.microservices.sender.models.Car;
-import com.microservices.sender.models.CityPrices;
+import com.microservices.producer.models.Car;
+import com.microservices.producer.models.CityPrices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Random;
 
 @Service

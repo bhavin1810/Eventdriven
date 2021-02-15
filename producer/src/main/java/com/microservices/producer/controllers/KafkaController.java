@@ -1,8 +1,8 @@
-package com.microservices.sender.controllers;
+package com.microservices.producer.controllers;
 
-import com.microservices.sender.engine.Producer;
-import com.microservices.sender.models.Car;
-import com.microservices.sender.models.CityPrices;
+import com.microservices.producer.engine.Producer;
+import com.microservices.producer.models.Car;
+import com.microservices.producer.models.CityPrices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

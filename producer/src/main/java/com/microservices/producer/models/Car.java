@@ -1,4 +1,4 @@
-package com.microservices.sender.models;
+package com.microservices.producer.models;
 
 import lombok.Getter;
 import lombok.Setter;

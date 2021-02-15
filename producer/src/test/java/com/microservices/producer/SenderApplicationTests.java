@@ -1,4 +1,4 @@
-package com.microservices.sender;
+package com.microservices.producer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
