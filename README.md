@@ -36,3 +36,11 @@ mvn clean install
 
 http://localhost:9000/swagger-ui.html
 
+# TODO
+
+Add a caching layer for static data
+
+Add security using either JWT or Spring Security
+
+Docker image for both services and upload to dockerhub
+
