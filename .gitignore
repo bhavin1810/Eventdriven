@@ -22,9 +22,14 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# sender gitignore
-sender/mvn*
-sender/.mvn*
-sender/target*
-sender/.gitignore
+# producer gitignore
+producer/mvn*
+producer/.mvn*
+producer/target*
+
+#consumer gitignore
+consumer/mvn*
+consumer/.mnv*
+consumer/target*
+
 
